@@ -1,10 +1,17 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/Validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isSignInForm, setIsSignForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
 
   const name = useRef(null);
   const email = useRef(null);
@@ -12,22 +19,50 @@ const Login = () => {
 
   const handleButtonClick = () => {
     // Validate the form Data
-    console.log(name.current.value);
-    console.log(email.current.value);
-    console.log(password.current.value);
+    const nameValue = name.current?.value;
+    const emailValue = email.current?.value;
+    const passwordValue = password.current?.value;
 
-    const message = checkValidData(
-      name.current.value,
-      email.current.value,
-      password.current.value
-    );
+    console.log(nameValue);
+    console.log(emailValue);
+    console.log(passwordValue);
+
+    const message = checkValidData(nameValue, emailValue, passwordValue);
     setErrorMessage(message);
-    // console.log(message);
+
+    if (message) return;
 
     // Proceed and do sign up and sign in
+    if (!isSignInForm) {
+      // sign up logic
+      createUserWithEmailAndPassword(auth, emailValue, passwordValue)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+          navigate("/browser");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + "-" + errorMessage);
+        });
+    } else {
+      signInWithEmailAndPassword(auth, emailValue, passwordValue)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          navigate("/browser");
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMessage(errorCode + " - " + errorMessage);
+        });
+    }
   };
 
-  const toggleSingInForm = () => {
+  const toggleSignInForm = () => {
     setIsSignForm(!isSignInForm);
   };
 
@@ -43,7 +78,7 @@ const Login = () => {
       </div>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="absolute p-12 bg-black  bg-opacity-85 rounded-md w-4/12 mx-auto my-24 right-0 left-0"
+        className="absolute p-12 bg-black bg-opacity-85 rounded-md w-4/12 mx-auto my-24 right-0 left-0"
       >
         <h1 className="font-bold text-3xl py-4 text-white">
           {isSignInForm ? "Sign In" : "Sign Up"}
@@ -75,7 +110,7 @@ const Login = () => {
         >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
-        <p className="text-white cursor-pointer" onClick={toggleSingInForm}>
+        <p className="text-white cursor-pointer" onClick={toggleSignInForm}>
           {isSignInForm
             ? " New to Netflix? Sign up now"
             : "Already Registered? Sign In now."}
