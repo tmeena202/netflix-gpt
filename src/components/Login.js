@@ -7,16 +7,15 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { NETFLIX_BG, USER_AVATAR } from "../utils/constanst";
 
 const Login = () => {
   const [isSignInForm, setIsSignForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const name = useRef(null);
   const email = useRef(null);
@@ -46,8 +45,7 @@ const Login = () => {
           console.log(user);
           updateProfile(user, {
             displayName: nameValue,
-            photoURL:
-              "https://lh3.googleusercontent.com/ogw/AF2bZygi5tFBf4qVJL3bPnbmHTyQAssNA0ePrPZIQ-3RDODgVrc=s64-c-mo",
+            photoURL: USER_AVATAR,
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
@@ -56,10 +54,9 @@ const Login = () => {
                   uid: uid,
                   email: email,
                   displayName: displayName,
-                  photoURL: photoURL,
+                  photoURL: photoURL || USER_AVATAR,
                 })
               );
-              navigate("/browser");
             })
             .catch((error) => {
               setErrorMessage(error.message);
@@ -75,8 +72,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log(user);
-          navigate("/browser");
+          // console.log(user);
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -94,11 +90,7 @@ const Login = () => {
     <div className="">
       <Header />
       <div className="absolute">
-        <img
-          className=""
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/51c1d7f7-3179-4a55-93d9-704722898999/be90e543-c951-40d0-9ef5-e067f3e33d16/IN-en-20240610-popsignuptwoweeks-perspective_alpha_website_large.jpg"
-          alt="background_image"
-        />
+        <img className="" src={NETFLIX_BG} alt="background_image" />
       </div>
       <form
         onSubmit={(e) => e.preventDefault()}

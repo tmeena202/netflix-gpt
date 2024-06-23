@@ -15,6 +15,7 @@
 - Created Redux store userSlice
 - Implemented SignOut
 - Update Profile
+- Bug Fix
 
 # Features
 
