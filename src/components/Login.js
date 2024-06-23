@@ -2,15 +2,20 @@ import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { checkValidData } from "../utils/Validate";
 import {
+  updateProfile,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isSignInForm, setIsSignForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const name = useRef(null);
@@ -39,7 +44,26 @@ const Login = () => {
         .then((userCredential) => {
           const user = userCredential.user;
           console.log(user);
-          navigate("/browser");
+          updateProfile(user, {
+            displayName: nameValue,
+            photoURL:
+              "https://lh3.googleusercontent.com/ogw/AF2bZygi5tFBf4qVJL3bPnbmHTyQAssNA0ePrPZIQ-3RDODgVrc=s64-c-mo",
+          })
+            .then(() => {
+              const { uid, email, displayName, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  displayName: displayName,
+                  photoURL: photoURL,
+                })
+              );
+              navigate("/browser");
+            })
+            .catch((error) => {
+              setErrorMessage(error.message);
+            });
         })
         .catch((error) => {
           const errorCode = error.code;
