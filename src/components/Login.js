@@ -42,7 +42,7 @@ const Login = () => {
       createUserWithEmailAndPassword(auth, emailValue, passwordValue)
         .then((userCredential) => {
           const user = userCredential.user;
-          console.log(user);
+          // console.log(user);
           updateProfile(user, {
             displayName: nameValue,
             photoURL: USER_AVATAR,

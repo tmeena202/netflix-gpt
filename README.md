@@ -16,6 +16,7 @@
 - Implemented SignOut
 - Update Profile
 - Bug Fix
+- Register for TMDB
 
 # Features
 
