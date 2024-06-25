@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
-import { NETFLIX_LOGO } from "../utils/constanst";
+import { NETFLIX_LOGO } from "../utils/constants";
 
 const Header = () => {
   const navigate = useNavigate();
