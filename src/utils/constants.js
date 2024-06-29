@@ -24,3 +24,5 @@ export const SUPPORTED_LANGUAGES = [
   { identifier: "spanish", name: "Spanish" },
   { identifier: "japanese", name: "Japanese" },
 ];
+
+export const GOOGLE_GEMINI_APIKEY = "AIzaSyBGLba0nlPiv-7Zmq8gt4bKfO8rOkG2brg";
