@@ -1,10 +1,12 @@
 import React, { useRef } from "react";
 import lang from "../utils/languageConstant";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API_OPTIONS, GOOGLE_GEMINI_APIKEY } from "../utils/constants";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { addGptMovieResult } from "../utils/gptSlice";
 
 const GptSearchBar = () => {
+  const dispatch = useDispatch();
   const langKey = useSelector((store) => store.config.lang);
   const searchText = useRef(null);
 
@@ -45,6 +47,10 @@ const GptSearchBar = () => {
 
     const tmdbResults = await Promise.all(promiseArray);
     console.log(tmdbResults);
+
+    dispatch(
+      addGptMovieResult({ movieNames: gptMovies, movieResults: tmdbResults })
+    );
   };
 
   return (

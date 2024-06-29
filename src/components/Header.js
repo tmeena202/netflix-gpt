@@ -76,16 +76,19 @@ const Header = () => {
           )}
           <button
             onClick={handleGptsearchClick}
-            className="my-2 px-2 py-1 mx-4 bg-purple-800 bg-opacity-70 text-white border border-white rounded-2xl"
+            className="my-2 px-2 py-1 mx-4 bg-purple-800 bg-opacity-90 text-white border border-white rounded-2xl hover:scale-110"
           >
-            {showGptSearch ? "HomePage" : "🤩 GPT Search"}
+            {showGptSearch ? "HomePage" : "GPT Search 🤩"}
           </button>
           <img
             className="w-10 h-10 my-2 rounded-md"
             src={user.photoURL}
             alt="userIcon"
           />
-          <button onClick={handleSignOut} className="text-white font-bold p-1">
+          <button
+            onClick={handleSignOut}
+            className="my-2 px-2 py-1 mx-4 font-bold bg-red-800 bg-opacity-90 text-white border border-white rounded-2xl hover:scale-110"
+          >
             Sign Out
           </button>
         </div>
