@@ -9,7 +9,7 @@ const MainContainer = () => {
   if (!movies || movies.length === 0) return null;
 
   // Select a random movie from the first 20 movies
-  const randomIndex = Math.floor(Math.random() * Math.min(movies.length, 20));
+  const randomIndex = Math.floor(Math.random() * Math.min(movies.length, 19));
   const mainMovie = movies[randomIndex];
   // console.log(mainMovie);
 
