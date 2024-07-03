@@ -27,7 +27,7 @@ export const checkValidData = (name, email, password) => {
     return "Password must contain at least one letter";
   }
   if (!isPasswordValid)
-    return "Password is not Valid. Password must contain 8 digit, first letter capital, one symbol.";
+    return "Password is not Valid. Password must contain 8 digit, first letter capital.";
 
   return null;
 };
